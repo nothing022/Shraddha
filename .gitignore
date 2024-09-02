@@ -1,0 +1,10 @@
+/downloads/
+/cache/
+/cookies/
+/ShraddhaMusic.session
+/ShraddhaMusic.session-journal
+/.env
+/cookies.txt
+/log.txt
+/unknown_errors.txt
+__pycache__/

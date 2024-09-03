@@ -62,7 +62,7 @@ async def auto_end():
             nocall = False
             for chat_id in chatss:
                 try:
-                    users = len(await Shraddha.call_listeners(chat_id))
+                    users = await Shraddha.call_listeners(chat_id)
                 except GroupCallNotFound:
                     users = 1
                     nocall = True

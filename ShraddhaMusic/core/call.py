@@ -6,6 +6,7 @@ from typing import Union
 from pyrogram import Client
 from pyrogram.types import InlineKeyboardMarkup
 from pyrogram.errors import ChatAdminRequired
+from pyrogram.raw.functions.phone import GetGroupParticipants
 
 from pytgcalls import PyTgCalls,filters #, StreamType
 from pytgcalls.exceptions import AlreadyJoinedError
@@ -99,7 +100,9 @@ class Call(PyTgCalls):
         )
     async def call_listeners(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
-        return await assistant.get_participants(chat_id)
+        call = (await assistant._mtproto.get_chat(chat_id)).raw.call
+        result = await assistant._mtproto.invoke(GetGroupParticipants(call=call,ids=[],sources=[], offset="",limit=500))
+        return result.count
 
     async def pause_stream(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)

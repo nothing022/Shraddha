@@ -211,12 +211,14 @@ async def is_autoend() -> bool:
 
 async def autoend_on():
     chat_id = 1234
-    await autoenddb.insert_one({"chat_id": chat_id})
+    if not await is_autoend():
+      await autoenddb.insert_one({"chat_id": chat_id})
 
 
 async def autoend_off():
     chat_id = 1234
-    await autoenddb.delete_one({"chat_id": chat_id})
+    if await is_autoend():
+      await autoenddb.delete_one({"chat_id": chat_id})
 
 
 async def is_autoleave() -> bool:
@@ -229,12 +231,14 @@ async def is_autoleave() -> bool:
 
 async def autoleave_on():
     chat_id = 1234
-    await autoleavedb.insert_one({"chat_id": chat_id})
+    if not await is_autoleave():
+      await autoleavedb.insert_one({"chat_id": chat_id})
 
 
 async def autoleave_off():
     chat_id = 1234
-    await autoleavedb.delete_one({"chat_id": chat_id})
+    if await is_autoleave():
+      await autoleavedb.delete_one({"chat_id": chat_id})
     
 
 async def get_loop(chat_id: int) -> int:

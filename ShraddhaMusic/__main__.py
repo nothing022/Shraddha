@@ -5,6 +5,7 @@ from pyrogram import idle
 from pyrogram.errors import ChatAdminRequired
 
 import config
+
 from ShraddhaMusic import LOGGER, app, userbot
 from ShraddhaMusic.core.call import Shraddha
 from ShraddhaMusic.misc import sudo
@@ -55,6 +56,5 @@ async def init():
     await userbot.stop()
     LOGGER("ShraddhaMusic").info("Stopping Shraddha Music Bot...")
 
-
 if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(init())
+    app.run(init())

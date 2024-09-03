@@ -60,7 +60,7 @@ async def put_queue_index(
 ):
     if "20.212.146.162" in vidid:
         try:
-            dur = await asyncio.get_event_loop().run_in_executor(
+            dur = await asyncio.get_running_loop().run_in_executor(
                 None, check_duration, vidid
             )
             duration = seconds_to_min(dur)

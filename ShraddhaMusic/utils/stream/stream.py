@@ -29,6 +29,7 @@ async def stream(
     spotify: Union[bool, str] = None,
     forceplay: Union[bool, str] = None,
 ):
+    mediatype = "video" if video else "audio"
     if not result:
         return
     if forceplay:
@@ -63,7 +64,7 @@ async def stream(
                     user_name,
                     vidid,
                     user_id,
-                    "video" if video else "audio",
+                    mediatype,
                 )
                 position = len(db.get(chat_id)) - 1
                 count += 1
@@ -92,15 +93,15 @@ async def stream(
                     user_name,
                     vidid,
                     user_id,
-                    "video" if video else "audio",
+                    mediatype,
                     forceplay=forceplay,
                 )
                 img = await gen_thumb(vidid)
                 button = stream_markup(_, chat_id)
                 if config.PHOTO_THUMBNAIL:
-                   run = await app.send_photo(original_chat_id,photo=img,caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{vidid}",title[:23],duration_min,user_name),reply_markup=InlineKeyboardMarkup(button))
+                   run = await app.send_photo(original_chat_id,photo=img,caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{vidid}",title[:23],duration_min,user_name,mediatype),reply_markup=InlineKeyboardMarkup(button))
                 else:
-                   run = await app.send_message(original_chat_id,text=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{vidid}",title[:23],duration_min,user_name),reply_markup=InlineKeyboardMarkup(button),disable_web_page_preview=True)
+                   run = await app.send_message(original_chat_id,text=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{vidid}",title[:23],duration_min,user_name,mediatype),reply_markup=InlineKeyboardMarkup(button),disable_web_page_preview=True)
                 try:
                   db[chat_id][0]["mystic"] = run
                   db[chat_id][0]["markup"] = "stream"
@@ -145,13 +146,14 @@ async def stream(
                 user_name,
                 vidid,
                 user_id,
-                "video" if video else "audio",
+                mediatype,
             )
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
+            
             await app.send_message(
                 chat_id=original_chat_id,
-                text=_["queue_4"].format(position, title[:27], duration_min, user_name),
+                text=_["queue_4"].format(position, title[:27], duration_min, user_name, mediatype),
                 reply_markup=InlineKeyboardMarkup(button),
             )
         else:
@@ -173,15 +175,15 @@ async def stream(
                 user_name,
                 vidid,
                 user_id,
-                "video" if video else "audio",
+                mediatype,
                 forceplay=forceplay,
             )
             img = await gen_thumb(vidid)
             button = stream_markup(_, chat_id)
             if config.PHOTO_THUMBNAIL:
-              run = await app.send_photo(original_chat_id,photo=img,caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{vidid}",title[:23],duration_min,user_name,),reply_markup=InlineKeyboardMarkup(button))
+              run = await app.send_photo(original_chat_id,photo=img,caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{vidid}",title[:23],duration_min,user_name,mediatype),reply_markup=InlineKeyboardMarkup(button))
             else:
-              run = await app.send_message(original_chat_id,text=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{vidid}",title[:23],duration_min,user_name,),reply_markup=InlineKeyboardMarkup(button),disable_web_page_preview=True)
+              run = await app.send_message(original_chat_id,text=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{vidid}",title[:23],duration_min,user_name,mediatype),reply_markup=InlineKeyboardMarkup(button),disable_web_page_preview=True)
             try:
               db[chat_id][0]["mystic"] = run
               db[chat_id][0]["markup"] = "stream"
@@ -206,9 +208,10 @@ async def stream(
             )
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
+            mediatype = "audio"
             await app.send_message(
                 chat_id=original_chat_id,
-                text=_["queue_4"].format(position, title[:27], duration_min, user_name),
+                text=_["queue_4"].format(position, title[:27], duration_min, user_name,mediatype),
                 reply_markup=InlineKeyboardMarkup(button),
             )
         else:
@@ -228,12 +231,12 @@ async def stream(
                 forceplay=forceplay,
             )
             button = stream_markup(_, chat_id)
+            mediatype = "audio"
             run = await app.send_photo(
                 original_chat_id,
                 photo=config.SOUNCLOUD_IMG_URL,
                 caption=_["stream_1"].format(
-                    config.SUPPORT_GROUP, title[:23], duration_min, user_name
-                ),
+                    config.SUPPORT_GROUP, title[:23], duration_min, user_name, mediatype),
                 reply_markup=InlineKeyboardMarkup(button),
             )
             try:
@@ -258,13 +261,13 @@ async def stream(
                 user_name,
                 streamtype,
                 user_id,
-                "video" if video else "audio",
+                mediatype,
             )
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
             await app.send_message(
                 chat_id=original_chat_id,
-                text=_["queue_4"].format(position, title[:27], duration_min, user_name),
+                text=_["queue_4"].format(position, title[:27], duration_min, user_name,mediatype),
                 reply_markup=InlineKeyboardMarkup(button),
             )
         else:
@@ -280,7 +283,7 @@ async def stream(
                 user_name,
                 streamtype,
                 user_id,
-                "video" if video else "audio",
+                mediatype,
                 forceplay=forceplay,
             )
             if video:
@@ -289,7 +292,7 @@ async def stream(
             run = await app.send_photo(
                 original_chat_id,
                 photo=config.TELEGRAM_VIDEO_URL if video else config.TELEGRAM_AUDIO_URL,
-                caption=_["stream_1"].format(link, title[:23], duration_min, user_name),
+                caption=_["stream_1"].format(link, title[:23], duration_min, user_name, mediatype),
                 reply_markup=InlineKeyboardMarkup(button),
             )
             try:
@@ -315,13 +318,13 @@ async def stream(
                 user_name,
                 vidid,
                 user_id,
-                "video" if video else "audio",
+                mediatype,
             )
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
             await app.send_message(
                 chat_id=original_chat_id,
-                text=_["queue_4"].format(position, title[:27], duration_min, user_name),
+                text=_["queue_4"].format(position, title[:27], duration_min, user_name,mediatype),
                 reply_markup=InlineKeyboardMarkup(button),
             )
         else:
@@ -346,15 +349,15 @@ async def stream(
                 user_name,
                 vidid,
                 user_id,
-                "video" if video else "audio",
+                mediatype,
                 forceplay=forceplay,
             )
             img = await gen_thumb(vidid)
             button = stream_markup(_, chat_id)
             if config.PHOTO_THUMBNAIL:
-              run = await app.send_photo(original_chat_id,photo=img,caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{vidid}",title[:23],duration_min,user_name),reply_markup=InlineKeyboardMarkup(button))
+              run = await app.send_photo(original_chat_id,photo=img,caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{vidid}",title[:23],duration_min,user_name,mediatype),reply_markup=InlineKeyboardMarkup(button))
             else:
-              run = await app.send_message(original_chat_id,text=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{vidid}",title[:23],duration_min,user_name),reply_markup=InlineKeyboardMarkup(button),disable_web_page_preview=True)
+              run = await app.send_message(original_chat_id,text=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{vidid}",title[:23],duration_min,user_name,mediatype),reply_markup=InlineKeyboardMarkup(button),disable_web_page_preview=True)
             try:
               db[chat_id][0]["mystic"] = run
               db[chat_id][0]["markup"] = "tg"
@@ -374,12 +377,12 @@ async def stream(
                 duration_min,
                 user_name,
                 link,
-                "video" if video else "audio",
+                mediatype,
             )
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
             await mystic.edit_text(
-                text=_["queue_4"].format(position, title[:27], duration_min, user_name),
+                text=_["queue_4"].format(position, title[:27], duration_min, user_name,mediatype),
                 reply_markup=InlineKeyboardMarkup(button),
             )
         else:
@@ -399,14 +402,14 @@ async def stream(
                 duration_min,
                 user_name,
                 link,
-                "video" if video else "audio",
+                mediatype,
                 forceplay=forceplay,
             )
             button = stream_markup(_, chat_id)
             run = await app.send_photo(
                 original_chat_id,
                 photo=config.STREAM_IMG_URL,
-                caption=_["stream_2"].format(user_name),
+                caption=_["stream_2"].format(user_name,mediatype),
                 reply_markup=InlineKeyboardMarkup(button),
             )
             try:

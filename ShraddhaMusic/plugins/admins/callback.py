@@ -229,9 +229,9 @@ async def del_back_playlist(client, CallbackQuery, _):
             button = stream_markup(_, chat_id)
             img = await gen_thumb(videoid)
             if config.PHOTO_THUMBNAIL:
-               run = await CallbackQuery.message.reply_photo(photo=img,caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],duration,user),reply_markup=InlineKeyboardMarkup(button))
+               run = await CallbackQuery.message.reply_photo(photo=img,caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],duration,user,str(streamtype)),reply_markup=InlineKeyboardMarkup(button))
             else:
-               run = await CallbackQuery.message.reply_text(photo=img,caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],duration,user),reply_markup=InlineKeyboardMarkup(button),disable_web_page_preview=True)
+               run = await CallbackQuery.message.reply_text(photo=img,caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],duration,user,str(streamtype)),reply_markup=InlineKeyboardMarkup(button),disable_web_page_preview=True)
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
             await CallbackQuery.edit_message_text(txt, reply_markup=close_markup(_))
@@ -253,9 +253,9 @@ async def del_back_playlist(client, CallbackQuery, _):
             button = stream_markup(_, chat_id)
             img = await gen_thumb(videoid)
             if config.PHOTO_THUMBNAIL:
-               run = await CallbackQuery.message.reply_photo(photo=img,caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],duration,user),reply_markup=InlineKeyboardMarkup(button))
+               run = await CallbackQuery.message.reply_photo(photo=img,caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],duration,user,str(streamtype)),reply_markup=InlineKeyboardMarkup(button))
             else:
-               run = await CallbackQuery.message.reply_text(text=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],duration,user),reply_markup=InlineKeyboardMarkup(button),disable_web_page_preview=True)
+               run = await CallbackQuery.message.reply_text(text=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],duration,user,str(streamtype)),reply_markup=InlineKeyboardMarkup(button),disable_web_page_preview=True)
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "stream"
             await CallbackQuery.edit_message_text(txt, reply_markup=close_markup(_))
@@ -268,7 +268,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             button = stream_markup(_, chat_id)
             run = await CallbackQuery.message.reply_photo(
                 photo=STREAM_IMG_URL,
-                caption=_["stream_2"].format(user),
+                caption=_["stream_2"].format(user,str(streamtype)),
                 reply_markup=InlineKeyboardMarkup(button),
             )
             db[chat_id][0]["mystic"] = run
@@ -295,7 +295,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                     if str(streamtype) == "audio"
                     else TELEGRAM_VIDEO_URL,
                     caption=_["stream_1"].format(
-                        config.SUPPORT_GROUP, title[:23], duration, user
+                        config.SUPPORT_GROUP, title[:23], duration, user,str(streamtype)
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
                 )
@@ -308,7 +308,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                     if str(streamtype) == "audio"
                     else TELEGRAM_VIDEO_URL,
                     caption=_["stream_1"].format(
-                        config.SUPPORT_GROUP, title[:23], duration, user
+                        config.SUPPORT_GROUP, title[:23], duration, user,str(streamtype)
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
                 )
@@ -318,9 +318,9 @@ async def del_back_playlist(client, CallbackQuery, _):
                 button = stream_markup(_, chat_id)
                 img = await gen_thumb(videoid)
                 if config.PHOTO_THUMBNAIL:
-                   run = await CallbackQuery.message.reply_photo(photo=img,caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],duration,user),reply_markup=InlineKeyboardMarkup(button))
+                   run = await CallbackQuery.message.reply_photo(photo=img,caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],duration,user,str(streamtype)),reply_markup=InlineKeyboardMarkup(button))
                 else:
-                   run = await CallbackQuery.message.reply_text(text=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],duration,user),reply_markup=InlineKeyboardMarkup(button),disable_web_page_preview=True)
+                   run = await CallbackQuery.message.reply_text(text=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],duration,user,str(streamtype)),reply_markup=InlineKeyboardMarkup(button),disable_web_page_preview=True)
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "stream"
             await CallbackQuery.edit_message_text(txt, reply_markup=close_markup(_))

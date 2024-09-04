@@ -117,9 +117,9 @@ async def skip(cli, message: Message, _, chat_id):
         button = stream_markup(_, chat_id)
         img = await gen_thumb(videoid)
         if config.PHOTO_THUMBNAIL:
-           run = await message.reply_photo(photo=img,caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],check[0]["dur"],user),reply_markup=InlineKeyboardMarkup(button))
+           run = await message.reply_photo(photo=img,caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],check[0]["dur"],user,str(streamtype)),reply_markup=InlineKeyboardMarkup(button))
         else:
-           run = await message.reply_text(text=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],check[0]["dur"],user),reply_markup=InlineKeyboardMarkup(button),disable_web_page_preview=True)
+           run = await message.reply_text(text=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],check[0]["dur"],user,str(streamtype)),reply_markup=InlineKeyboardMarkup(button),disable_web_page_preview=True)
         db[chat_id][0]["mystic"] = run
         db[chat_id][0]["markup"] = "tg"
     elif "vid_" in queued:
@@ -138,9 +138,9 @@ async def skip(cli, message: Message, _, chat_id):
         button = stream_markup(_, chat_id)
         img = await gen_thumb(videoid)
         if config.PHOTO_THUMBNAIL:
-           run = await message.reply_photo(photo=img,caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],check[0]["dur"],user),reply_markup=InlineKeyboardMarkup(button))
+           run = await message.reply_photo(photo=img,caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],check[0]["dur"],user,str(streamtype)),reply_markup=InlineKeyboardMarkup(button))
         else:
-           run = await message.reply_text(text=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],check[0]["dur"],user),reply_markup=InlineKeyboardMarkup(button),disable_web_page_preview=True)
+           run = await message.reply_text(text=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],check[0]["dur"],user,str(streamtype)),reply_markup=InlineKeyboardMarkup(button),disable_web_page_preview=True)
         db[chat_id][0]["mystic"] = run
         db[chat_id][0]["markup"] = "stream"
     elif "index_" in queued:
@@ -151,7 +151,7 @@ async def skip(cli, message: Message, _, chat_id):
         button = stream_markup(_, chat_id)
         run = await message.reply_photo(
             photo=config.STREAM_IMG_URL,
-            caption=_["stream_2"].format(user),
+            caption=_["stream_2"].format(user,str(streamtype)),
             reply_markup=InlineKeyboardMarkup(button),
         )
         db[chat_id][0]["mystic"] = run
@@ -177,7 +177,7 @@ async def skip(cli, message: Message, _, chat_id):
                 if str(streamtype) == "audio"
                 else config.TELEGRAM_VIDEO_URL,
                 caption=_["stream_1"].format(
-                    config.SUPPORT_GROUP, title[:23], check[0]["dur"], user
+                    config.SUPPORT_GROUP, title[:23], check[0]["dur"], user,str(streamtype)
                 ),
                 reply_markup=InlineKeyboardMarkup(button),
             )
@@ -190,7 +190,7 @@ async def skip(cli, message: Message, _, chat_id):
                 if str(streamtype) == "audio"
                 else config.TELEGRAM_VIDEO_URL,
                 caption=_["stream_1"].format(
-                    config.SUPPORT_GROUP, title[:23], check[0]["dur"], user
+                    config.SUPPORT_GROUP, title[:23], check[0]["dur"], user,str(streamtype)
                 ),
                 reply_markup=InlineKeyboardMarkup(button),
             )
@@ -200,8 +200,8 @@ async def skip(cli, message: Message, _, chat_id):
             button = stream_markup(_, chat_id)
             img = await gen_thumb(videoid)
             if config.PHOTO_THUMBNAIL:
-               run = await message.reply_photo(photo=img,caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],check[0]["dur"],user),reply_markup=InlineKeyboardMarkup(button))
+               run = await message.reply_photo(photo=img,caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],check[0]["dur"],user,str(streamtype)),reply_markup=InlineKeyboardMarkup(button))
             else:
-               run = await message.reply_text(text=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],check[0]["dur"],user),reply_markup=InlineKeyboardMarkup(button),disable_web_page_preview=True)
+               run = await message.reply_text(text=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}",title[:23],check[0]["dur"],user,str(streamtype)),reply_markup=InlineKeyboardMarkup(button),disable_web_page_preview=True)
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "stream"

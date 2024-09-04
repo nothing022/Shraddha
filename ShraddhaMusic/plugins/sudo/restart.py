@@ -112,6 +112,8 @@ async def update_(client, message, _):
 
 @app.on_message(filters.command(["restart"]) & SUDOERS)
 async def restart_(_, message):
+    if not (len(message.text.split(" ")) > 1 and message.text.split(" ")[1] in ["ok","true","yes"]):
+       return
     response = await message.reply_text("ʀᴇsᴛᴀʀᴛɪɴɢ...")
     ac_chats = await get_active_chats()
     for x in ac_chats:

@@ -62,7 +62,7 @@ async def auto_end():
             nocall = False
             for chat_id in chatss:
                 try:
-                    users = await Shraddha.call_listeners(chat_id)
+                    users, active_vc = await Shraddha.call_listeners(chat_id)
                 except GroupCallNotFound:
                     users = 1
                     nocall = True
@@ -72,18 +72,12 @@ async def auto_end():
                 if users == 1:
                     res = await set_loop(chat_id, 0)
                     keys_to_remove.append(chat_id)
+                    try: await Shraddha.stop_stream(chat_id)
+                    except: pass
                     try:
-                        await db[chat_id][0]["mystic"].delete()
-                    except Exception:
-                        pass
-                    try:
-                        await Shraddha.stop_stream(chat_id)
-                    except Exception:
-                        pass
-                    try:
-                        if not nocall:
-                            await app.send_message(chat_id, "» ʙᴏᴛ ᴀᴜᴛᴏᴍᴀᴛɪᴄᴀʟʟʏ ʟᴇғᴛ ᴠɪᴅᴇᴏᴄʜᴀᴛ ʙᴇᴄᴀᴜsᴇ ɴᴏ ᴏɴᴇ ᴡᴀs ʟɪsᴛᴇɴɪɴɢ ᴏɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ.")
-                    except Exception:
+                        if not nocall and active_vc:
+                           await app.send_message(chat_id, "» ʙᴏᴛ ᴀᴜᴛᴏᴍᴀᴛɪᴄᴀʟʟʏ ʟᴇғᴛ ᴠɪᴅᴇᴏᴄʜᴀᴛ ʙᴇᴄᴀᴜsᴇ ɴᴏ ᴏɴᴇ ᴡᴀs ʟɪsᴛᴇɴɪɴɢ ᴏɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ.")
+                    except:
                         pass
             for chat_id in keys_to_remove:
                 del autoend[chat_id]

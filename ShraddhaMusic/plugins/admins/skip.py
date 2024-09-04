@@ -18,10 +18,6 @@ from config import BANNED_USERS
 )
 @AdminRightsCheck
 async def skip(cli, message: Message, _, chat_id):
-    try:
-     await db[chat_id][0]["mystic"].delete()
-    except:
-     pass
     if not len(message.command) < 2:
         loop = await get_loop(chat_id)
         if loop != 0:

@@ -102,7 +102,8 @@ class Call(PyTgCalls):
         assistant = await group_assistant(self, chat_id)
         call = (await assistant._mtproto.get_chat(chat_id)).raw.call
         result = await assistant._mtproto.invoke(GetGroupParticipants(call=call,ids=[],sources=[], offset="",limit=500))
-        return result.count
+        active_vc = assistant._mtproto.me.id in [x.peer.user_id for x in result.participants]
+        return result.count,active_vc
 
     async def pause_stream(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
@@ -113,6 +114,8 @@ class Call(PyTgCalls):
         await assistant.resume_stream(chat_id)
 
     async def stop_stream(self, chat_id: int):
+        try: await db[chat_id][0]["mystic"].delete()
+        except: pass
         assistant = await group_assistant(self, chat_id)
         try:
             await _clear_(chat_id)
@@ -121,6 +124,8 @@ class Call(PyTgCalls):
             pass
 
     async def stop_stream_force(self, chat_id: int):
+        try: await db[chat_id][0]["mystic"].delete()
+        except: pass
         try:
             if config.STRING1:
                 await self.one.leave_call(chat_id)
@@ -222,6 +227,8 @@ class Call(PyTgCalls):
 
     async def force_stop_stream(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
+        try: await db[chat_id][0]["mystic"].delete()
+        except: pass
         try:
             check = db.get(chat_id)
             check.pop(0)
@@ -241,6 +248,8 @@ class Call(PyTgCalls):
         video: Union[bool, str] = None,
         image: Union[bool, str] = None,
     ):
+        try: await db[chat_id][0]["mystic"].delete()
+        except: pass
         assistant = await group_assistant(self, chat_id)
         if video:
             stream = MediaStream(
@@ -322,11 +331,9 @@ class Call(PyTgCalls):
 
 
     async def change_stream(self, client, chat_id):
+        try: await db[chat_id][0]["mystic"].delete()
+        except: pass
         check = db.get(chat_id)
-        try:
-         await db[chat_id][0]["mystic"].delete()
-        except:
-         pass
         popped = None
         loop = await get_loop(chat_id)
         try:

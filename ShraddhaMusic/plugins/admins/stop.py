@@ -16,8 +16,6 @@ from config import BANNED_USERS
 async def stop_music(cli, message: Message, _, chat_id):
     if not len(message.command) == 1:
         return
-    try: await db[chat_id][0]["mystic"].delete()
-    except: pass
     await Shraddha.stop_stream(chat_id)
     await set_loop(chat_id, 0)
     await message.reply_text(

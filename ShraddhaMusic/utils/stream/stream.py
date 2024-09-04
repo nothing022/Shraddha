@@ -107,7 +107,6 @@ async def stream(
                 except IndexError:
                   await run.delete()
                   await app.send_message(original_chat_id,_["play_23"])
-                await mystic.delete()
         if count == 0:
             return
         else:
@@ -189,7 +188,6 @@ async def stream(
             except IndexError:
               await run.delete()
               await app.send_message(original_chat_id,_["play_23"])
-            await mystic.delete()
     elif streamtype == "soundcloud":
         file_path = result["filepath"]
         title = result["title"]
@@ -244,7 +242,6 @@ async def stream(
             except IndexError:
               await run.delete()
               await app.send_message(original_chat_id,_["play_23"])
-            await mystic.delete()
     elif streamtype == "telegram":
         file_path = result["path"]
         link = result["link"]
@@ -301,7 +298,6 @@ async def stream(
             except IndexError:
               await run.delete()
               await app.send_message(original_chat_id,_["play_23"])
-            await mystic.delete()
     elif streamtype == "live":
         link = result["link"]
         vidid = result["vidid"]
@@ -365,7 +361,6 @@ async def stream(
             except IndexError:
               await run.delete()
               await app.send_message(original_chat_id,_["play_23"])
-            await mystic.delete()
     elif streamtype == "index":
         link = result
         title = "ɪɴᴅᴇx ᴏʀ ᴍ3ᴜ8 ʟɪɴᴋ"
@@ -420,4 +415,3 @@ async def stream(
             except IndexError:
               await run.delete()
               await app.send_message(original_chat_id,_["play_23"])
-            await mystic.delete()

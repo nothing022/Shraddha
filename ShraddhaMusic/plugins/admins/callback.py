@@ -151,22 +151,16 @@ async def del_back_playlist(client, CallbackQuery, _):
         await CallbackQuery.message.reply_text(
             _["admin_4"].format(mention), reply_markup=close_markup(_)
         )
-    elif command == "Seeknext":
-        await CallbackQuery.answer(_["admin_41"], show_alert=True)
-        message = CallbackQuery.message
-        user = CallbackQuery.from_user
-        button = stream_seek_markup(_,chat_id)
-        inline = True
-        await message.edit_reply_markup(InlineKeyboardMarkup(button))
-        await seek_comm(client, message,_ ,chat_id,"30","e",user,inline)
-    elif command == "Seekback":
+    elif command in ["Seeknext","Seekback"]:
+        seeker = "e" (if command == "Seeknext") else "c"
         await CallbackQuery.answer(_["admin_42"], show_alert=True)
         message = CallbackQuery.message
         user = CallbackQuery.from_user
         button = stream_seek_markup(_,chat_id)
         inline = True
+        seek_timer = "30"
         await message.edit_reply_markup(InlineKeyboardMarkup(button))
-        await seek_comm(client, message,_ ,chat_id,"30","c",user,inline)
+        await seek_comm(client, message,_ ,chat_id,seek_timer,seeker,user,inline)
     elif command == "Stop" or command == "End":
         await CallbackQuery.answer()
         await Shraddha.stop_stream(chat_id)

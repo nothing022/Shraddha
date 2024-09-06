@@ -158,7 +158,7 @@ async def del_back_playlist(client, CallbackQuery, _):
         user = CallbackQuery.from_user
         button = stream_seek_markup(_,chat_id)
         inline = True
-        seek_timer = "30"
+        seek_timer = "20"
         await message.edit_reply_markup(InlineKeyboardMarkup(button))
         await seek_comm(client, message,_ ,chat_id,seek_timer,seeker,user,inline)
     elif command == "Stop" or command == "End":

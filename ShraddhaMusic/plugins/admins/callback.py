@@ -152,7 +152,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             _["admin_4"].format(mention), reply_markup=close_markup(_)
         )
     elif command in ["Seeknext","Seekback"]:
-        seeker = "e" (if command == "Seeknext") else "c"
+        seeker = "e" if (command == "Seeknext") else "c"
         await CallbackQuery.answer(_["admin_42"], show_alert=True)
         message = CallbackQuery.message
         user = CallbackQuery.from_user

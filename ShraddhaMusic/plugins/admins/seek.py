@@ -32,31 +32,37 @@ async def seek_comm(cli,message,_ ,chat_id,query,seekcmd,user,inline):
     playing = db.get(chat_id)
     keyboard = None if inline else close_markup(_)
     if not playing:
-        return await message.reply_text(_["queue_2"])
+        msg = await message.reply_text(_["queue_2"])
+        try: await asyncio.sleep(6); return await msg.delete()
+        except: return
     duration_seconds = int(playing[0]["seconds"])
     if duration_seconds == 0:
-        return await message.reply_text(_["admin_22"])
+        msg = await message.reply_text(_["admin_22"])
+        try: await asyncio.sleep(6); return await msg.delete()
+        except: return
     file_path = playing[0]["file"]
     duration_played = int(playing[0]["played"])
     duration_to_skip = int(query)
     duration = playing[0]["dur"]
     if seekcmd == "c":
         if (duration_played - duration_to_skip) <= 10:
-            return await message.reply_text(
-                text=_["admin_23"].format(seconds_to_min(duration_played), duration),
-                reply_markup=keyboard,
-            )
+            msg = await message.reply_text(text=_["admin_23"].format(seconds_to_min(duration_played),duration),reply_markup=keyboard)
+            try: await asyncio.sleep(6); return await msg.delete()
+            except: return
         to_seek = duration_played - duration_to_skip + 1
     else:
         if (duration_seconds - (duration_played + duration_to_skip)) <= 10:
-            return await message.reply_text(
-                text=_["admin_23"].format(seconds_to_min(duration_played), duration),reply_markup=keyboard)
+            msg = await message.reply_text(text=_["admin_23"].format(seconds_to_min(duration_played), duration),reply_markup=keyboard)
+            try: await asyncio.sleep(6); return await msg.delete()
+            except: return
         to_seek = duration_played + duration_to_skip + 1
     mystic = await message.reply_text(_["admin_24"])
     if "vid_" in file_path:
         n, file_path = await YouTube.video(playing[0]["vidid"], True)
         if n == 0:
-            return await message.reply_text(_["admin_22"])
+            msg = await message.reply_text(_["admin_22"])
+            try: await asyncio.sleep(6); return await msg.delete()
+            except: return
     check = (playing[0]).get("speed_path")
     if check:
         file_path = check
@@ -65,15 +71,14 @@ async def seek_comm(cli,message,_ ,chat_id,query,seekcmd,user,inline):
     try:
         await Shraddha.seek_stream(chat_id,file_path,seconds_to_min(to_seek),duration,playing[0]["streamtype"])
     except:
-        return await mystic.edit_text(_["admin_26"], reply_markup=keyboard)
+        msg = await mystic.edit_text(_["admin_26"], reply_markup=keyboard)
+        try: await asyncio.sleep(6); return await msg.delete()
+        except: return
     if seekcmd == "c":
         db[chat_id][0]["played"] -= duration_to_skip
     else:
         db[chat_id][0]["played"] += duration_to_skip
     await mystic.edit_text(text=_["admin_25"].format(seconds_to_min(to_seek),user.mention),reply_markup=keyboard)
     if inline:
-      try:
-       await asyncio.sleep(6)
-       await mystic.delete()
-      except:
-       pass
+       try: await asyncio.sleep(6); return await mystic.delete()
+       except: return

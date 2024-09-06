@@ -19,9 +19,11 @@ from ShraddhaMusic.utils.database import (
 )
 from ShraddhaMusic.utils.decorators.language import languageCB
 from ShraddhaMusic.utils.formatters import seconds_to_min
-from ShraddhaMusic.utils.inline import close_markup, stream_markup, stream_markup_timer
+from ShraddhaMusic.utils.inline import close_markup, stream_markup,stream_seek_markup,stream_markup_timer
 from ShraddhaMusic.utils.stream.autoclear import auto_clean
 from ShraddhaMusic.utils.thumbnails import gen_thumb
+from ShraddhaMusic.plugins.admins.seek import seek_comm
+
 from config import (
     BANNED_USERS,
     SOUNCLOUD_IMG_URL,
@@ -149,6 +151,22 @@ async def del_back_playlist(client, CallbackQuery, _):
         await CallbackQuery.message.reply_text(
             _["admin_4"].format(mention), reply_markup=close_markup(_)
         )
+    elif command == "Seeknext":
+        await CallbackQuery.answer(_["admin_41"], show_alert=True)
+        message = CallbackQuery.message
+        user = CallbackQuery.from_user
+        button = stream_seek_markup(_,chat_id)
+        inline = True
+        await message.edit_reply_markup(InlineKeyboardMarkup(button))
+        await seek_comm(client, message,_ ,chat_id,"30","e",user,inline)
+    elif command == "Seekback":
+        await CallbackQuery.answer(_["admin_42"], show_alert=True)
+        message = CallbackQuery.message
+        user = CallbackQuery.from_user
+        button = stream_seek_markup(_,chat_id)
+        inline = True
+        await message.edit_reply_markup(InlineKeyboardMarkup(button))
+        await seek_comm(client, message,_ ,chat_id,"30","c",user,inline)
     elif command == "Stop" or command == "End":
         await CallbackQuery.answer()
         await Shraddha.stop_stream(chat_id)
@@ -368,6 +386,5 @@ async def markup_timer():
                     continue
             except:
                 continue
-
 
 asyncio.create_task(markup_timer())

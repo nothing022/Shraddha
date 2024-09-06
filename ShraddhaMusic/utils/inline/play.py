@@ -28,6 +28,7 @@ def track_markup(_, videoid, user_id, channel, fplay):
     return buttons
 
 
+
 def stream_markup_timer(_, chat_id, played, dur):
     played_sec = time_to_seconds(played)
     duration_sec = time_to_seconds(dur)
@@ -65,7 +66,12 @@ def stream_markup_timer(_, chat_id, played, dur):
             InlineKeyboardButton(text="II", callback_data=f"ADMIN Pause|{chat_id}"),
             InlineKeyboardButton(text="↻", callback_data=f"ADMIN Replay|{chat_id}"),
             InlineKeyboardButton(text="‣‣I", callback_data=f"ADMIN Skip|{chat_id}"),
+        ],
+        [
+            InlineKeyboardButton(text="⪻  -𝟹𝟶s", callback_data=f"ADMIN Seekback|{chat_id}"),
             InlineKeyboardButton(text="▢", callback_data=f"ADMIN Stop|{chat_id}"),
+            InlineKeyboardButton(text="+𝟹𝟶s  ⪼", callback_data=f"ADMIN Seeknext|{chat_id}"),
+
         ],
         [InlineKeyboardButton(text=f"⍟ ᴜᴘᴅᴀᴛᴇs ⍟",url=config.SUPPORT_CHANNEL),InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close")],
     ]
@@ -79,12 +85,29 @@ def stream_markup(_, chat_id):
             InlineKeyboardButton(text="II", callback_data=f"ADMIN Pause|{chat_id}"),
             InlineKeyboardButton(text="↻", callback_data=f"ADMIN Replay|{chat_id}"),
             InlineKeyboardButton(text="‣‣I", callback_data=f"ADMIN Skip|{chat_id}"),
+        ],
+        [
+            InlineKeyboardButton(text="⪻  -𝟹𝟶s", callback_data=f"ADMIN Seekback|{chat_id}"),
             InlineKeyboardButton(text="▢", callback_data=f"ADMIN Stop|{chat_id}"),
+            InlineKeyboardButton(text="+𝟹𝟶s  ⪼", callback_data=f"ADMIN Seeknext|{chat_id}"),
+
         ],
         [InlineKeyboardButton(text=f"⍟ ᴜᴘᴅᴀᴛᴇs ⍟",url=config.SUPPORT_CHANNEL),InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close")],
     ]
     return buttons
 
+def stream_seek_markup(_, chat_id):
+    buttons = [
+        [
+            InlineKeyboardButton(text="▷", callback_data=f"ADMIN Resume|{chat_id}"),
+            InlineKeyboardButton(text="II", callback_data=f"ADMIN Pause|{chat_id}"),
+            InlineKeyboardButton(text="↻", callback_data=f"ADMIN Replay|{chat_id}"),
+            InlineKeyboardButton(text="‣‣I", callback_data=f"ADMIN Skip|{chat_id}"),
+        ],
+        [InlineKeyboardButton(text="🧑‍💻 Sᴇᴇᴋɪɴɢ...", callback_data=f"GetTimer")],
+        [InlineKeyboardButton(text=f"⍟ ᴜᴘᴅᴀᴛᴇs ⍟",url=config.SUPPORT_CHANNEL),InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close")],
+    ]
+    return buttons
 
 def playlist_markup(_, videoid, user_id, ptype, channel, fplay):
     buttons = [

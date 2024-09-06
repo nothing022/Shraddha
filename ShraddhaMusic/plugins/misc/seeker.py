@@ -14,6 +14,7 @@ async def timer():
             if not playing:
                 continue
             duration = int(playing[0]["seconds"])
+            print(int(playing[0]["played"]))
             if duration == 0:
                 continue
             if db[chat_id][0]["played"] >= duration:

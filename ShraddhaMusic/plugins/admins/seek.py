@@ -7,6 +7,7 @@ from ShraddhaMusic.misc import db
 from ShraddhaMusic.utils import AdminRightsCheck, seconds_to_min
 from ShraddhaMusic.utils.inline import close_markup
 from config import BANNED_USERS
+import asyncio
 
 
 @app.on_message(
@@ -15,13 +16,21 @@ from config import BANNED_USERS
     & ~BANNED_USERS
 )
 @AdminRightsCheck
-async def seek_comm(cli, message: Message, _, chat_id):
+async def main_seek_comm(cli, message: Message, _, chat_id):
     if len(message.command) == 1:
         return await message.reply_text(_["admin_20"])
     query = message.text.split(None, 1)[1].strip()
+    seekcmd = message.command[0][-2]
+    user = message.from_user
+    inline = False
     if not query.isnumeric():
         return await message.reply_text(_["admin_21"])
+    await seek_comm(cli,message,_ ,chat_id,query,seekcmd,user,inline)
+
+
+async def seek_comm(cli,message,_ ,chat_id,query,seekcmd,user,inline):
     playing = db.get(chat_id)
+    keyboard = None if inline else close_markup(_)
     if not playing:
         return await message.reply_text(_["queue_2"])
     duration_seconds = int(playing[0]["seconds"])
@@ -31,19 +40,17 @@ async def seek_comm(cli, message: Message, _, chat_id):
     duration_played = int(playing[0]["played"])
     duration_to_skip = int(query)
     duration = playing[0]["dur"]
-    if message.command[0][-2] == "c":
+    if seekcmd == "c":
         if (duration_played - duration_to_skip) <= 10:
             return await message.reply_text(
                 text=_["admin_23"].format(seconds_to_min(duration_played), duration),
-                reply_markup=close_markup(_),
+                reply_markup=keyboard,
             )
         to_seek = duration_played - duration_to_skip + 1
     else:
         if (duration_seconds - (duration_played + duration_to_skip)) <= 10:
             return await message.reply_text(
-                text=_["admin_23"].format(seconds_to_min(duration_played), duration),
-                reply_markup=close_markup(_),
-            )
+                text=_["admin_23"].format(seconds_to_min(duration_played), duration),reply_markup=keyboard)
         to_seek = duration_played + duration_to_skip + 1
     mystic = await message.reply_text(_["admin_24"])
     if "vid_" in file_path:
@@ -56,20 +63,17 @@ async def seek_comm(cli, message: Message, _, chat_id):
     if "index_" in file_path:
         file_path = playing[0]["vidid"]
     try:
-        await Shraddha.seek_stream(
-            chat_id,
-            file_path,
-            seconds_to_min(to_seek),
-            duration,
-            playing[0]["streamtype"],
-        )
+        await Shraddha.seek_stream(chat_id,file_path,seconds_to_min(to_seek),duration,playing[0]["streamtype"])
     except:
-        return await mystic.edit_text(_["admin_26"], reply_markup=close_markup(_))
-    if message.command[0][-2] == "c":
+        return await mystic.edit_text(_["admin_26"], reply_markup=keyboard)
+    if seekcmd == "c":
         db[chat_id][0]["played"] -= duration_to_skip
     else:
         db[chat_id][0]["played"] += duration_to_skip
-    await mystic.edit_text(
-        text=_["admin_25"].format(seconds_to_min(to_seek), message.from_user.mention),
-        reply_markup=close_markup(_),
-    )
+    await mystic.edit_text(text=_["admin_25"].format(seconds_to_min(to_seek),user.mention),reply_markup=keyboard)
+    if inline:
+      try:
+       await asyncio.sleep(6)
+       await mystic.delete()
+      except:
+       pass

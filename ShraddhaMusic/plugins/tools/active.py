@@ -41,8 +41,10 @@ async def activevc(client,message,inline):
     for x in served_chats:
         try:
             title = (await app.get_chat(x)).title
-        except:
-            await remove_active_chat(x)
+        except Exception as e:
+            print(e)
+            title = "Please Retry [Telegram Issue]"
+            #await remove_active_chat(x)
             continue
         try:
             if (await app.get_chat(x)).username:
@@ -72,8 +74,10 @@ async def activevi_(_, message: Message):
     for x in served_chats:
         try:
             title = (await app.get_chat(x)).title
-        except:
-            await remove_active_video_chat(x)
+        except Exception as e:
+            print(e)
+            title = "Please Retry [Telegram Issue]"
+            #await remove_active_video_chat(x)
             continue
         try:
             if (await app.get_chat(x)).username:

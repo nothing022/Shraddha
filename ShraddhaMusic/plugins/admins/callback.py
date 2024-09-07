@@ -153,7 +153,7 @@ async def del_back_playlist(client, CallbackQuery, _):
         )
     elif command in ["Seeknext","Seekback"]:
         seeker = "e" if (command == "Seeknext") else "c"
-        await CallbackQuery.answer(_["admin_42"], show_alert=True)
+        await CallbackQuery.answer(_["admin_41" if (command == "Seeknext") else "admin_42"], show_alert=True)
         message = CallbackQuery.message
         user = CallbackQuery.from_user
         button = stream_seek_markup(_,chat_id)

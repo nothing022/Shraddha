@@ -128,18 +128,6 @@ async def update_old_chats(client,message):
   if not await is_served_chat(message.chat.id):
     await add_served_chat(message.chat.id)
 
-@app.on_disconnect()
-async def xreconnect(client):
-   try:
-     try:
-       await client.restart()
-     except Exception as e:
-       print(e)
-       await client.start()
-   except Exception as e:
-     print(e)
-
-
 @app.on_chat_member_updated()
 async def update_chats(client,update):
  if (not update.old_chat_member) or (update.old_chat_member and update.old_chat_member.status in new_mem):

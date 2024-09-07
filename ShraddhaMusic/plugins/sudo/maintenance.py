@@ -19,7 +19,6 @@ async def maintenance(client, message: Message):
         _ = get_string(language)
     except:
         _ = get_string("en")
-    print(await is_maintenance())
     usage = _["maint_1"].format(await is_maintenance())
     if len(message.command) != 2:
         return await message.reply_text(usage)

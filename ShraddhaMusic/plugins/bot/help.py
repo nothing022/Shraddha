@@ -10,8 +10,10 @@ from ShraddhaMusic.utils.decorators.language import LanguageStart, languageCB
 from ShraddhaMusic.utils.inline.help import help_back_markup, private_help_panel
 from config import BANNED_USERS, START_IMG_URL, SUPPORT_GROUP
 from strings import get_string, helpers
+import config
 
 
+@app.on_message(filters.command(["help"]) & filters.private & ~BANNED_USERS)
 @app.on_callback_query(filters.regex("settings_back_helper") & ~BANNED_USERS)
 async def helper_private(client: app, update: Union[types.Message, types.CallbackQuery]):
     is_callback = isinstance(update, types.CallbackQuery)
@@ -27,7 +29,7 @@ async def helper_private(client: app, update: Union[types.Message, types.Callbac
         await update.edit_message_text(
             _["help_1"].format(SUPPORT_GROUP), reply_markup=keyboard
         )
-    else:
+    elif config.SEND_START_MESSAGE:
         try:
             await update.delete()
         except:
@@ -41,6 +43,14 @@ async def helper_private(client: app, update: Union[types.Message, types.Callbac
             reply_markup=keyboard,
         )
 
+@app.on_message(filters.command(["help"]) & filters.group & ~BANNED_USERS)
+@LanguageStart
+async def help_com_group(client, message: Message, _):
+    if not config.SEND_START_MESSAGE:
+      return
+    keyboard = private_help_panel(_)
+    await message.reply_text(_["help_2"], reply_markup=InlineKeyboardMarkup(keyboard))
+    
 
 @app.on_callback_query(filters.regex("mhelp_callback") & ~BANNED_USERS)
 @languageCB

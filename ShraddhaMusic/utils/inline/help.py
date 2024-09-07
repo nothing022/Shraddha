@@ -3,14 +3,14 @@ from typing import Union
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from ShraddhaMusic import app
-
+import config
 
 def help_pannel(_, START: Union[bool, int] = None):
     first = [InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data=f"close")]
     second = [
         InlineKeyboardButton(
             text=_["BACK_BUTTON"],
-            callback_data=f"alive_check",
+            callback_data = f"settingsback_helper" if config.SEND_START_MESSAGE else "alive_check",
         ),
     ]
     mark = second if START else first

@@ -12,6 +12,7 @@ from ShraddhaMusic.utils.database import get_assistant, get_authuser_names, get_
 from ShraddhaMusic.utils.decorators import ActualAdminCB, AdminActual, language
 from ShraddhaMusic.utils.formatters import alpha_to_int, get_readable_time
 from config import BANNED_USERS, adminlist, lyrical
+import config
 
 rel = {}
 
@@ -46,7 +47,7 @@ async def reload_admin_cache(client, message: Message, _):
         await message.reply_text(_["reload_3"])
 
 
-@app.on_message(filters.command(["mreboot"]) & filters.group & ~BANNED_USERS)
+@app.on_message(filters.command(["reboot","mreboot"] if config.SEND_START_MESSAGE else ["mreboot"]) & filters.group & ~BANNED_USERS)
 @AdminActual
 async def restartbot(client, message: Message, _):
     mystic = await message.reply_text(_["reload_4"].format(app.mention))

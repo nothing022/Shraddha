@@ -16,11 +16,12 @@ from ShraddhaMusic.utils.database import (
 from ShraddhaMusic.utils.decorators.language import language
 from ShraddhaMusic.utils.formatters import alpha_to_int
 from config import adminlist
+import config 
 
 IS_BROADCASTING = False
 
 
-@app.on_message(filters.command("mbroadcast") & SUDOERS)
+@app.on_message(filters.command(["broadcast","mbroadcast"] if config.SEND_START_MESSAGE else ["mbroadcast"]) & SUDOERS)
 @language
 async def braodcast_message(client, message, _):
     global IS_BROADCASTING

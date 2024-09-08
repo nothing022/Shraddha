@@ -18,9 +18,9 @@ from ShraddhaMusic.utils.database import (
 from ShraddhaMusic.utils.decorators.language import language
 from ShraddhaMusic.utils.extraction import extract_user
 from config import BANNED_USERS
+import config
 
-
-@app.on_message(filters.command(["mgban", "mglobalban"]) & SUDOERS)
+@app.on_message(filters.command(["mgban","gban","globalban","mglobalban"] if config.SEND_START_MESSAGE ["mgban", "mglobalban"]) & SUDOERS)
 @language
 async def global_ban(client, message: Message, _):
     if not message.reply_to_message:
@@ -68,7 +68,7 @@ async def global_ban(client, message: Message, _):
     await mystic.delete()
 
 
-@app.on_message(filters.command(["mungban"]) & SUDOERS)
+@app.on_message(filters.command(["mungban","ungban"] if config.SEND_START_MESSAGE else ["mungban"]) & SUDOERS)
 @language
 async def global_un(client, message: Message, _):
     if not message.reply_to_message:
@@ -100,7 +100,7 @@ async def global_un(client, message: Message, _):
     await mystic.delete()
 
 
-@app.on_message(filters.command(["mgbannedusers", "mgbanlist"]) & SUDOERS)
+@app.on_message(filters.command(["mgbannedusers","gbannedusers","gbanlist", "mgbanlist"] if config.SEND_START_MESSAGE else ["mgbannedusers", "mgbanlist"]) & SUDOERS)
 @language
 async def gbanned_list(client, message: Message, _):
     counts = await get_banned_count()

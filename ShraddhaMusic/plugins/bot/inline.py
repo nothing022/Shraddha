@@ -8,7 +8,7 @@ from youtubesearchpython.__future__ import VideosSearch
 from ShraddhaMusic import app
 from ShraddhaMusic.utils.inlinequery import answer
 from config import BANNED_USERS
-
+import config
 
 @app.on_inline_query(~BANNED_USERS,group=1)
 async def inline_query_handler(client, query):

@@ -12,7 +12,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from ShraddhaMusic import app
 from config import OWNER_ID
-
+import config
 
 async def aexec(code, client, message):
     exec(

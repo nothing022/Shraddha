@@ -20,7 +20,7 @@ from ShraddhaMusic.utils.extraction import extract_user
 from config import BANNED_USERS
 import config
 
-@app.on_message(filters.command(["mgban","gban","globalban","mglobalban"] if config.SEND_START_MESSAGE ["mgban", "mglobalban"]) & SUDOERS)
+@app.on_message(filters.command(["mgban","gban","globalban","mglobalban"] if config.SEND_START_MESSAGE else ["mgban", "mglobalban"]) & SUDOERS)
 @language
 async def global_ban(client, message: Message, _):
     if not message.reply_to_message:

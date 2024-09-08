@@ -13,8 +13,9 @@ from config import BANNED_USERS
 @app.on_inline_query(~BANNED_USERS,group=1)
 async def inline_query_handler(client, query):
     text = query.query.strip().lower()
-    if not (len(text.split(" ")) > 0 and text.split(" ")[0] == "!m"):
-      return
+    if not config.SEND_START_MESSAGE: 
+     if not (len(text.split(" ")) > 0 and text.split(" ")[0] == "!m"):
+        return
     text = text[3:]
     answers = []
     if text.strip() == "":

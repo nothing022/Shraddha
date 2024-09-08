@@ -16,7 +16,7 @@ async def inline_query_handler(client, query):
     if not config.SEND_START_MESSAGE: 
      if not (len(text.split(" ")) > 0 and text.split(" ")[0] == "!m"):
         return
-    text = text[3:]
+     text = text[3:]
     answers = []
     if text.strip() == "":
         try:

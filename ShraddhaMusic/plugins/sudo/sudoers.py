@@ -10,7 +10,7 @@ from ShraddhaMusic.utils.inline import close_markup
 from config import BANNED_USERS, OWNER_ID
 import config
 
-@app.on_message(filters.command(["maddsudo","addsudo"] if config.SEND_START_MESSAGE else (["maddsudo"]) & filters.user(OWNER_ID))
+@app.on_message(filters.command(["maddsudo","addsudo"] if config.SEND_START_MESSAGE else (["maddsudo"])) & filters.user(OWNER_ID))
 @language
 async def useradd(client, message: Message, _):
     if not message.reply_to_message:

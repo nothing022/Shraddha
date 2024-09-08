@@ -8,9 +8,9 @@ from ShraddhaMusic.utils.decorators.language import language
 from ShraddhaMusic.utils.extraction import extract_user
 from ShraddhaMusic.utils.inline import close_markup
 from config import BANNED_USERS, OWNER_ID
+import config
 
-
-@app.on_message(filters.command(["maddsudo"]) & filters.user(OWNER_ID))
+@app.on_message(filters.command(["maddsudo","addsudo"] if config.SEND_START_MESSAGE else (["maddsudo"]) & filters.user(OWNER_ID))
 @language
 async def useradd(client, message: Message, _):
     if not message.reply_to_message:
@@ -27,7 +27,7 @@ async def useradd(client, message: Message, _):
         await message.reply_text(_["sudo_8"])
 
 
-@app.on_message(filters.command(["mdelsudo", "mrmsudo"]) & filters.user(OWNER_ID))
+@app.on_message(filters.command(["mdelsudo", "mrmsudo","delsudo","rmsudo"] if config.SEND_START_MESSAGE else ["mdelsudo", "mrmsudo"]) & filters.user(OWNER_ID))
 @language
 async def userdel(client, message: Message, _):
     if not message.reply_to_message:
@@ -44,7 +44,7 @@ async def userdel(client, message: Message, _):
         await message.reply_text(_["sudo_8"])
 
 
-@app.on_message(filters.command(["msudolist", "mlistsudo", "msudoers"]) & ~BANNED_USERS)
+@app.on_message(filters.command(["sudolist", "listsudo", "sudoers","msudolist", "mlistsudo", "msudoers"] if config.SEND_START_MESSAGE else ["msudolist", "mlistsudo", "msudoers"]) & ~BANNED_USERS)
 @language
 async def sudoers_list(client, message: Message, _):
     text = _["sudo_5"]

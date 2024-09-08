@@ -36,11 +36,9 @@ from ShraddhaMusic.utils.inline.settings import (
 )
 from ShraddhaMusic.utils.inline.start import private_panel
 from config import BANNED_USERS, OWNER_ID
+import config
 
-
-@app.on_message(
-    filters.command(["msettings", "msetting"]) & filters.group & ~BANNED_USERS
-)
+@app.on_message(filters.command(["settings","setting","msettings","msetting"] if config.SEND_START_MESSAGE else ["msettings","msetting"]) & filters.group & ~BANNED_USERS)
 @language
 async def settings_mar(client, message: Message, _):
     buttons = setting_markup(_)

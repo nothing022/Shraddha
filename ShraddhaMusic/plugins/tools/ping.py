@@ -9,9 +9,9 @@ from ShraddhaMusic.utils import bot_sys_stats
 from ShraddhaMusic.utils.decorators.language import language
 from ShraddhaMusic.utils.inline import supp_markup
 from config import BANNED_USERS, PING_IMG_URL
+import config
 
-
-@app.on_message(filters.command(["mping", "malive"]) & ~BANNED_USERS)
+@app.on_message(filters.command(["ping","mping","malive","alive"] if config.SEND_START_MESSAGE else ["mping", "malive"]) & ~BANNED_USERS)
 @language
 async def ping_com(client, message: Message, _):
     start = datetime.now()
